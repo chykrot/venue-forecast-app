@@ -1915,12 +1915,170 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var default_layout = "default";
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Map: Map
+  },
   computed: {},
   data: function data() {
     return {
-      message: 'Test'
+      city: null,
+      list: [],
+      selectedLocation: {
+        city: "Tokyo",
+        state: "JP"
+      },
+      locations: [{
+        city: "Tokyo",
+        state: "JP"
+      }, {
+        city: "Yokohama",
+        state: "JP"
+      }, {
+        city: "Kyoto",
+        state: "JP"
+      }, {
+        city: "Osaka",
+        state: "JP"
+      }, {
+        city: "Sapporo",
+        state: "JP"
+      }, {
+        city: "Nagoya",
+        state: "JP"
+      }]
     };
+  },
+  mounted: function mounted() {
+    this.weatherLocation();
+  },
+  methods: {
+    dayOfWeek: function dayOfWeek(dateStr) {
+      var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var newDate = new Date(dateStr);
+      return daysOfWeek[newDate.getDay()];
+    },
+    dateString: function dateString(dateStr) {
+      return new Date(dateStr).toDateString();
+    },
+    imageIcon: function imageIcon(icon, size) {
+      return "http://openweathermap.org/img/wn/" + icon + ".png";
+    },
+    weatherLocation: function weatherLocation() {
+      var _this = this;
+
+      axios.get("api/weather?location=".concat(this.selectedLocation.city, ",").concat(this.selectedLocation.state)).then(function (response) {
+        _this.city = response.data.city;
+        _this.list = response.data.list;
+      });
+    },
+    onChange: function onChange(event) {
+      this.weatherLocation();
+    }
   }
 });
 
@@ -19574,9 +19732,331 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("h1", [_vm._v(_vm._s(_vm.message))])])
+  return _c("div", [
+    _c("div", { staticClass: "flex items-center justify-center p-2" }, [
+      _c(
+        "div",
+        { staticClass: "flex flex-col bg-white rounded p-2 w-full max-w-lg" },
+        [
+          _c("label", { staticClass: "block" }, [
+            _c("span", { staticClass: "text-gray-700" }, [
+              _vm._v("Select City")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedLocation,
+                    expression: "selectedLocation"
+                  }
+                ],
+                staticClass:
+                  "form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1",
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selectedLocation = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    function($event) {
+                      return _vm.onChange($event)
+                    }
+                  ]
+                }
+              },
+              _vm._l(_vm.locations, function(item) {
+                return _c(
+                  "option",
+                  {
+                    key: item.city,
+                    staticClass: "mx-4",
+                    domProps: { value: item }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " + _vm._s(item.city) + "\n          "
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container mx-auto" }, [
+      _c("div", { staticClass: "flex flex-wrap lg:flex-nowrap" }, [
+        _c("div", { staticClass: "w-full" }, [
+          _c(
+            "section",
+            {
+              staticClass: "py-20 xl:bg-contain bg-top bg-no-repeat",
+              staticStyle: {
+                "background-image":
+                  "url('metis-assets/backgrounds/intersect.svg')"
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "container px-4 mx-auto" },
+                _vm._l(_vm.list, function(item, index) {
+                  return _c(
+                    "div",
+                    {
+                      key: item.clouds.dt,
+                      staticClass: "flex flex-wrap max-w-5xl mx-auto"
+                    },
+                    [
+                      _c("div", { staticClass: "w-full px-3 mb-3" }, [
+                        _c(
+                          "div",
+                          { staticClass: "p-6 bg-white shadow rounded" },
+                          [
+                            _c("div", { staticClass: "font-bold text-lg" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(
+                                    index == 0
+                                      ? "Today"
+                                      : _vm.dateString(item.dt_txt)
+                                  ) +
+                                  "\n                  "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "flex flex-row justify-between mt-2"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "flex flex-col items-center" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "font-medium text-4xl text-blue-600"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                        " +
+                                            _vm._s(Math.round(item.main.temp)) +
+                                            "°C\n                      "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "flex flex-col items-center" },
+                                  _vm._l(item.weather, function(weather) {
+                                    return _c("div", { key: weather.id }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass: "text-6xl items-center"
+                                        },
+                                        [
+                                          _c("img", {
+                                            attrs: {
+                                              src: _vm.imageIcon(
+                                                weather.icon,
+                                                2
+                                              )
+                                            }
+                                          })
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "text-center" },
+                                        [
+                                          _vm._v(
+                                            "\n                          " +
+                                              _vm._s(weather.description) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  }),
+                                  0
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "flex flex-col items-center" },
+                                  [
+                                    _c("div", { staticClass: "mt-1" }, [
+                                      _vm._m(0, true),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "text-sm font-light text-gray-500"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "min " +
+                                              _vm._s(
+                                                item.main.temp_max.toFixed()
+                                              ) +
+                                              "°C"
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _vm._m(1, true),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "text-sm font-light text-gray-500"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "max " +
+                                              _vm._s(
+                                                item.main.temp_min.toFixed()
+                                              ) +
+                                              "°C"
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "flex flex-row justify-between mt-6"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "flex flex-col items-center" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "font-medium text-sm" },
+                                      [_vm._v("Wind")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-sm text-gray-500" },
+                                      [
+                                        _vm._v(
+                                          "\n                        " +
+                                            _vm._s(item.wind.speed.toFixed(1)) +
+                                            "k/h\n                      "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "flex flex-col items-center" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "font-medium text-sm" },
+                                      [_vm._v("Humidity")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-sm text-gray-500" },
+                                      [
+                                        _vm._v(
+                                          "\n                        " +
+                                            _vm._s(item.main.humidity) +
+                                            "%\n                      "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm._m(2, true)
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "text-sm" }, [
+      _c("i", { staticClass: "far fa-long-arrow-up" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "text-sm" }, [
+      _c("i", { staticClass: "far fa-long-arrow-down" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex flex-col items-center" }, [
+      _c("div", { staticClass: "font-medium text-sm" }, [_vm._v("Visibility")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-sm text-gray-500" }, [_vm._v("10km")])
+    ])
+  }
+]
 render._withStripped = true
 
 
