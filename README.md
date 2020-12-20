@@ -29,14 +29,14 @@ npm install
 npm run dev || npm run watch
 
 
-## Framework and Library Used
+## Framework and Library
 
 
 - **[Laravel](https://laravel.com/)**
 - **[Vue](https://vuejs.org/)**
 - **[Tailwind Css](https://tailwindcss.com/)**
 
-## Third Party API Used
+## Third Party API
 
 - **[Open Weather Map](https://openweathermap.org/)**
 - **[Foursqure Venue Search](https://foursquare.com/)**
