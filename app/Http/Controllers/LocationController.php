@@ -18,7 +18,7 @@ class LocationController extends Controller
                 'client_secret' => config('weather.foursquare.client_secret'),
                 'v'             => '20190101',
                 'locale'        => $request->lang,
-                'limit'         => 5
+                'limit'         => $request->limit
             ]);
 
             if ($response->failed() || $response->clientError()) {

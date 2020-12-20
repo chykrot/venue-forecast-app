@@ -5,7 +5,7 @@
 			<div class="w-full lg:w-1/2">
 				<div class="py-4 lg:pr-6">
 					<div class="mb-4">
-						<h3 class="text-xl mt-3 font-bold font-heading">{{ venue.name }}</h3>
+						<h3 class="text-xl mt-3 font-bold font-heading cursor-pointer">{{ venue.name }}</h3>
 					</div>
 					<div class="flex items-start">
 						<div class="w-7 mt-1 mr-5 text-blue-500">

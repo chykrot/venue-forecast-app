@@ -1995,6 +1995,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2036,6 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
         city: 'Nagoya',
         state: 'JP'
       }],
+      locationsLimit: 5,
       selectedLanguage: {
         code: 'en',
         name: 'English'
@@ -2061,7 +2070,7 @@ __webpack_require__.r(__webpack_exports__);
       return axios.get("api/weather?location=".concat(this.selectedLocation.city, ",").concat(this.selectedLocation.state, "&lang=").concat(this.selectedLanguage.code));
     },
     searchLocation: function searchLocation() {
-      return axios.get("api/location?location=".concat(this.selectedLocation.city, ",").concat(this.selectedLocation.state, "&lang=").concat(this.selectedLanguage.code));
+      return axios.get("api/location?location=".concat(this.selectedLocation.city, ",").concat(this.selectedLocation.state, "&lang=").concat(this.selectedLanguage.code, "&limit=").concat(this.locationsLimit));
     },
     fetchData: function fetchData() {
       var _this = this;
@@ -2085,6 +2094,16 @@ __webpack_require__.r(__webpack_exports__);
     onChangeLanguage: function onChangeLanguage(event) {
       _utility_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].locale = this.selectedLanguage.code;
       this.fetchData();
+    },
+    loadMore: function loadMore() {
+      var _this2 = this;
+
+      this.locationsLimit = this.locationsLimit + 5;
+      this.searchLocation().then(function (result) {
+        _this2.venues = result.data.venues;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
     }
   }
 });
@@ -23700,7 +23719,7 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1",
+                      "form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1 cursor-pointer",
                     on: {
                       change: [
                         function($event) {
@@ -23762,7 +23781,7 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1",
+                      "form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1 cursor-pointer",
                     on: {
                       change: [
                         function($event) {
@@ -23843,7 +23862,23 @@ var render = function() {
                 })
               ],
               2
-            )
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center py-10 cursor-pointer" }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "inline-block py-4 px-8 text-xs text-white font-semibold leading-none bg-blue-600 hover:bg-blue-700 rounded",
+                  on: {
+                    click: function($event) {
+                      return _vm.loadMore()
+                    }
+                  }
+                },
+                [_vm._v("\n                Load More...\n              ")]
+              )
+            ])
           ])
         ]),
         _vm._v(" "),
@@ -24107,9 +24142,14 @@ var render = function() {
       _c("div", { staticClass: "w-full lg:w-1/2" }, [
         _c("div", { staticClass: "py-4 lg:pr-6" }, [
           _c("div", { staticClass: "mb-4" }, [
-            _c("h3", { staticClass: "text-xl mt-3 font-bold font-heading" }, [
-              _vm._v(_vm._s(_vm.venue.name))
-            ])
+            _c(
+              "h3",
+              {
+                staticClass:
+                  "text-xl mt-3 font-bold font-heading cursor-pointer"
+              },
+              [_vm._v(_vm._s(_vm.venue.name))]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "flex items-start" }, [

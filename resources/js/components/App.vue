@@ -10,7 +10,7 @@
               <select 
                 @change="onChangeLocation($event)"
                 v-model="selectedLocation"
-                class="form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1"
+                class="form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1 cursor-pointer"
               >
                 <option 
                   v-for="location in locations" :key="location.city" 
@@ -29,7 +29,7 @@
               <select 
                 @change="onChangeLanguage($event)"
                 v-model="selectedLanguage"
-                class="form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1"
+                class="form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1 cursor-pointer"
               >
                 <option 
                   v-for="language in languages" :key="language.code" 
@@ -55,6 +55,14 @@
                 <Map :coordinates="{ lat:venue.location.lat, lng:venue.location.lng }" />
               </venue>
 						</div>
+            <div class="text-center py-10 cursor-pointer">
+              <a 
+                class="inline-block py-4 px-8 text-xs text-white font-semibold leading-none bg-blue-600 hover:bg-blue-700 rounded"
+                @click="loadMore()"
+              >
+                Load More...
+              </a>
+            </div>
 					</section>
 				</div>
         
@@ -107,6 +115,7 @@ export default {
 				{city:'Sapporo', state:'JP'},
 				{city:'Nagoya', state:'JP'}
       ],
+      locationsLimit: 5,
       selectedLanguage: {code: 'en', name: 'English'},
       languages: [
         {code: 'en', name: 'English'},
@@ -128,7 +137,7 @@ export default {
 		},
 		searchLocation() {
       return axios
-        .get(`api/location?location=${this.selectedLocation.city},${this.selectedLocation.state}&lang=${this.selectedLanguage.code}`)
+        .get(`api/location?location=${this.selectedLocation.city},${this.selectedLocation.state}&lang=${this.selectedLanguage.code}&limit=${this.locationsLimit}`)
     },
     fetchData() {
       NProgress.start()
@@ -153,6 +162,13 @@ export default {
     onChangeLanguage(event) {
       i18n.locale = this.selectedLanguage.code
       this.fetchData()
+    },
+    loadMore() {
+      this.locationsLimit = this.locationsLimit + 5
+      this.searchLocation().then(result => {
+        this.venues = result.data.venues
+      })
+      .catch(error => console.log(error))
     }
 	}
 }
