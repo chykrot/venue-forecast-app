@@ -23,3 +23,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('weather', [WeatherController::class, 'index']);
 Route::get('location', [LocationController::class, 'index']);
+Route::get('location/{id}', [LocationController::class, 'show']);

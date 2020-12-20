@@ -44,7 +44,20 @@
         </div>
 			</div>
 
-			<div class="flex flex-wrap lg:flex-nowrap">
+			<div v-if="city" class="flex flex-wrap lg:flex-row-reverse">
+        <div class="w-full lg:w-1/3">
+					<section class="py-6 xl:bg-contain bg-top bg-no-repeat"
+						style="background-image: url('metis-assets/backgrounds/intersect.svg');">
+						<div class="container mx-auto">
+							<forecast 
+                v-for="(forecast, index) in forecasts" :key="forecast.clouds.dt"
+                :forecast="forecast" :index="index"
+              >
+              </forecast>
+						</div>
+					</section>
+				</div>
+
 				<div class="w-full lg:w-2/3">
 					<section class="py-6 px-3 overflow-x-hidden">
 						<div class="container p-6 mx-auto bg-white shadow rounded">	
@@ -65,22 +78,12 @@
             </div>
 					</section>
 				</div>
-        
-
-				<div class="w-full lg:w-1/3">
-					<section class="py-6 xl:bg-contain bg-top bg-no-repeat"
-						style="background-image: url('metis-assets/backgrounds/intersect.svg');">
-						<div class="container mx-auto">
-							<forecast 
-                v-for="(forecast, index) in forecasts" :key="forecast.clouds.dt"
-                :forecast="forecast" :index="index"
-              >
-              </forecast>
-						</div>
-					</section>
-				</div>
 			</div>
 		</div>
+
+    <modal-details></modal-details>
+
+    <modal-error></modal-error>
 
 	</div>
 </template>
@@ -90,15 +93,20 @@
 import Map from './Map.vue'
 import Venue from './Venue.vue'
 import Forecast from './Forecast.vue'
+import ModalDetails from './ModalDetails.vue'
+import ModalError from './ModalError.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css' 
 import i18n from '../utility/i18n'
+import bus from '../utility/bus'
 
 export default {
 	components: {
     Map,
     Venue,
-    Forecast
+    Forecast,
+    ModalDetails,
+    ModalError
 	},
   computed: {},
 	data() {
@@ -124,7 +132,7 @@ export default {
 		}
 	},
 	mounted () {
-		this.fetchData()
+    this.fetchData()
 	},
 	methods: {
 		dayOfWeek(dateStr) {
@@ -153,6 +161,7 @@ export default {
       })
       .catch((error) => {
         console.log(`Error in promises ${error}`)
+        bus.$emit('modalError', true)
         NProgress.done()
       })
     },
