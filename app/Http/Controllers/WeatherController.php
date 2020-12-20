@@ -12,10 +12,10 @@ class WeatherController extends Controller
         try {
 
             $response = Http::get('https://api.openweathermap.org/data/2.5/forecast', [
-                'q'     => "$request->location",
-                'units' => 'metric',
-                'appid' => config('weather.open_weather_key'),
-                //'lang'  => 'ja'
+                'q'      => "$request->location",
+                'units'  => 'metric',
+                'appid'  => config('weather.open_weather_key'),
+                'lang' => $request->lang,
             ]);
 
             if ($response->failed() || $response->clientError()) {

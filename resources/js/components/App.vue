@@ -7,16 +7,32 @@
 					<label class="block">
 						<span class="text-gray-700">Select City</span>
 						<select 
-							@change="onChange($event)"
+							@change="onChangeLocation($event)"
 							v-model="selectedLocation"
 							class="form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1"
 						>
 							<option 
-								v-for="item in locations" :key="item.city" 
-								:value="item"
+								v-for="location in locations" :key="location.city" 
+								:value="location"
 								class="mx-4"
 							>
-								{{ item.city }}
+								{{ location.city }}
+							</option>
+						</select>
+					</label>
+          <label class="block">
+						<span class="text-gray-700">Select Language</span>
+						<select 
+							@change="onChangeLanguage($event)"
+							v-model="selectedLanguage"
+							class="form-select block p-2 rounded border-2 border-light-blue-500 border-opacity-75 w-full mt-1"
+						>
+							<option 
+								v-for="language in languages" :key="language.code" 
+								:value="language"
+								class="mx-4"
+							>
+								{{ language.name }}
 							</option>
 						</select>
 					</label>
@@ -51,26 +67,29 @@
 				</div>
 			</div>
 		</div>
-    
+
 	</div>
 </template>
 
 <script>
 
 import Map from './Map.vue';
-import venue from './Venue.vue';
-import forecast from './Forecast.vue';
+import Venue from './Venue.vue';
+import Forecast from './Forecast.vue';
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css' 
 
 export default {
 	components: {
     Map,
-    venue,
-    forecast
+    Venue,
+    Forecast
 	},
 	computed: {},
 	data() {
 		return {
-			venues: [],
+      city: null,
+      venues: [],
 			forecasts: [],
 			selectedLocation: {city:'Tokyo', state:'JP'},
 			locations: [
@@ -80,37 +99,52 @@ export default {
 				{city:'Osaka', state:'JP'},
 				{city:'Sapporo', state:'JP'},
 				{city:'Nagoya', state:'JP'}
-			]
+      ],
+      selectedLanguage: {code: 'ja', name: 'Japanese'},
+      languages: [
+        {code: 'en', name: 'English'},
+        {code: 'ja', name: 'Japanese'}
+      ]
 		}
 	},
 	mounted () {
-		this.weatherLocation()
-		this.searchLocation()
+		this.fetchData()
 	},
 	methods: {
 		dayOfWeek(dateStr) {
-			const daysOfWeek = ["Sunday", 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 			const newDate = new Date(dateStr)			
 			return daysOfWeek[newDate.getDay()]
 		},		
 		weatherLocation() {
-			axios
-			.get(`api/weather?location=${this.selectedLocation.city},${this.selectedLocation.state}`)
-			.then(response => {
-				this.city = response.data.city
-				this.forecasts = response.data.list
-			})
+      return axios
+        .get(`api/weather?location=${this.selectedLocation.city},${this.selectedLocation.state}&lang=${this.selectedLanguage.code}`)
 		},
 		searchLocation() {
-			axios.get(`api/location?location=${this.selectedLocation.city},${this.selectedLocation.state}`)
-			.then(response => {
-				this.city = response.data.response.geocode
-				this.venues = response.data.response.venues
-			})
-		},
-		onChange(event) {
-			this.weatherLocation()
-			this.searchLocation()
+      return axios
+        .get(`api/location?location=${this.selectedLocation.city},${this.selectedLocation.state}&locale=${this.selectedLanguage.code}`)
+    },
+    fetchData() {
+      NProgress.start()
+      let location = this.searchLocation()
+      let weather = this.weatherLocation()
+      
+      Promise.all([location, weather])
+      .then((result) => {
+        this.city = result[0].data.geocode
+        this.venues = result[0].data.venues
+        this.forecasts = result[1].data.list
+        NProgress.done()
+      })
+      .catch((error) => {
+        console.log(`Error in promises ${error}`)
+        NProgress.done()
+      })
+    },
+		onChangeLocation(event) {
+      this.fetchData()
+    },
+    onChangeLanguage(event) {
+      this.fetchData()
     }
 	}
 }

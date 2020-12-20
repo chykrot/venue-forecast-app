@@ -13,11 +13,12 @@ class LocationController extends Controller
         try {
 
             $response = Http::get('https://api.foursquare.com/v2/venues/search', [
-                'near' => "$request->location",
-                'client_id' => config('weather.foursquare.client_id'),
+                'near'          => "$request->location",
+                'client_id'     => config('weather.foursquare.client_id'),
                 'client_secret' => config('weather.foursquare.client_secret'),
-                'v' => '20190101',
-                'limit' => 5
+                'v'             => '20190101',
+                'locale'        => $request->lang,
+                'limit'         => 5
             ]);
 
             if ($response->failed() || $response->clientError()) {
@@ -27,12 +28,21 @@ class LocationController extends Controller
                 );
             }
 
-            return $response->json();
+            return $this->formatResult($response->json());
 
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage()
             ], 500);
         }
+    }
+
+
+    private function formatResult($response)
+    {
+        return response()->json([
+            'geocode' => $response['response']['geocode'],
+            'venues' => $response['response']['venues']
+        ]);
     }
 }
