@@ -24,6 +24,7 @@
     "dependencies": {
         "nprogress": "^0.2.0",
         "vue": "^2.6.12",
+        "vue-i18n": "^8.22.2",
         "vue2-google-maps": "^0.10.7"
     }
 }

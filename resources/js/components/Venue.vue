@@ -15,7 +15,7 @@
 							</svg>
 						</div>
 						<div>
-							<h3 class="text-lg font-semibold font-heading">Address</h3>
+							<h3 class="text-lg font-semibold font-heading">{{ $t('address') }}</h3>
 							<p class="text-gray-600 leading-loose">
 								{{ venue.location.formattedAddress.join(' ') }}
 							</p>
@@ -28,7 +28,7 @@
 							</svg>
 						</div>
 						<div>
-							<h3 class="text-lg font-semibold font-heading">Category</h3>
+							<h3 class="text-lg font-semibold font-heading">{{ $t('category') }}</h3>
 							<div v-for="category in venue.categories" :key="category.id">
 								<p class="text-gray-600 leading-loose">
 									{{ category.name }}
@@ -43,12 +43,12 @@
 							</svg>
 						</div>
 						<div>
-							<h3 class="text-lg font-semibold font-heading">Coordinates</h3>
+							<h3 class="text-lg font-semibold font-heading">{{ $t('coordinates') }}</h3>
 							<p class="text-gray-600 leading-loose">
-								<span class="text-blue-500">latitude : </span> {{ venue.location.lat }}
+								<span class="text-blue-500">{{ $t('latitude') }} : </span> {{ venue.location.lat }}
 							</p>
 							<p class="text-gray-600 leading-loose text-md">
-								<span class="text-blue-500">longitude : </span> {{ venue.location.lng }}
+								<span class="text-blue-500">{{ $t('longitude') }} : </span> {{ venue.location.lng }}
 							</p>
 						</div>
 					</div>

@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import App from './components/App.vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import i18n from './utility/i18n';
 
 
 Vue.use(VueGoogleMaps, {
@@ -14,6 +15,7 @@ Vue.use(VueGoogleMaps, {
 
 
 const app = new Vue({
+    i18n,
     el: '#app',
     components: { App }
 });
