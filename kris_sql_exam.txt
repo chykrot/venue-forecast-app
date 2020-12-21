@@ -1,0 +1,34 @@
+###### EXAM NO. 1 #######
+Select CONCAT('T', LPAD(t.id, 11, 0)) AS ID, t.nickname AS Nickname, t.status AS Status, GROUP_CONCAT( 
+CASE
+    WHEN tr.role = 1 THEN 'Trainer'
+    WHEN tr.role = 2 THEN 'Assessor'
+    WHEN tr.role = 3 THEN 'Staff'
+END
+SEPARATOR '/') AS Roles
+FROM trn_teacher t 
+JOIN trn_teacher_role tr ON t.id = tr.teacher_id
+GROUP BY t.id;
+
+
+###### EXAM NO. 2 #######
+Select tc.id AS ID, tc.nickname AS Nickname, ttb.Open, ttb.Reserved, tte.Taught, tte.NoShow
+FROM trn_teacher tc 
+JOIN 
+(Select tb.teacher_id,
+	COUNT(IF(tb.status = 1, 1, 0)) AS Open,
+    COUNT(IF(tb.status = 3, 1, 0)) AS Reserved
+FROM trn_time_table tb
+JOIN trn_teacher t ON tb.teacher_id = t.id
+GROUP BY t.id) AS ttb ON tc.id = ttb.teacher_id
+JOIN
+(Select te.teacher_id,
+	COUNT(IF(te.result = 1, 1, 0)) AS Taught,
+    COUNT(IF(te.result = 2, 1, 0)) AS NoShow
+FROM trn_evaluation te
+JOIN trn_teacher t ON te.teacher_id = t.id
+GROUP BY t.id) AS tte ON tc.id = tte.teacher_id
+JOIN trn_teacher_role tr ON tc.id = tr.teacher_id
+Where tr.role > 0 AND tr.role < 3
+GROUP BY tc.id
+HAVING COUNT(tr.role) > 1;

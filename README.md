@@ -47,6 +47,10 @@ I choose to design with this Layout with Simplicity, Clean and Resposivenes in m
 
 I handle the Third Party API request with the backend using Laravel. To make our app more secure and don't expose our API Keys, additionally we can process those API in our backend before we return it in our frontend.
 
+## SQL Query Exam
+
+
+The Query for SQL Exam inlcuded with this repository. Please check the filename kris_sql_exam.txt
 
 ## Framework and Library
 
