@@ -47,7 +47,7 @@ class LocationController extends Controller
                 'client_id'     => config('weather.foursquare.client_id'),
                 'client_secret' => config('weather.foursquare.client_secret'),
                 'v'             => '20190101',
-                //'locale'        => $request->lang
+                'locale'        => $request->lang
             ]);
 
             if ($response->failed() || $response->clientError()) {
@@ -75,13 +75,6 @@ class LocationController extends Controller
             'geocode' => $response['response']['geocode'],
             'venues' => $response['response']['venues']
         ]);
-    }
-
-    private function test()
-    {
-        $jsonString = file_get_contents(storage_path('app/show-location2.json'));
-
-        return json_decode($jsonString, true);
     }
     
 }

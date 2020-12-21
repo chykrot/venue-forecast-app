@@ -2341,6 +2341,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "modal-details",
@@ -2362,13 +2371,12 @@ __webpack_require__.r(__webpack_exports__);
     toggleModal: function toggleModal() {
       this.showModal = !this.showModal;
     },
-    showLocation: function showLocation(venueId) {
+    showLocation: function showLocation(params) {
       var _this2 = this;
 
-      axios.get("api/location/".concat(venueId)).then(function (result) {
+      axios.get("api/location/".concat(params.id, "?lang=").concat(params.lang)).then(function (result) {
         _this2.venueDetail = result.data.venue;
         _this2.showModal = !_this2.showModal;
-        console.log(_this2.venueDetail);
       })["catch"](function (error) {
         console.log(error);
         _utility_bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('modalError', true);
@@ -2538,13 +2546,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'venue',
-  props: ['venue'],
+  props: ['venue', 'lang'],
   data: function data() {
     return {};
   },
   methods: {
     preview: function preview(id) {
-      _utility_bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('previewVenue', id);
+      _utility_bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('previewVenue', {
+        id: id,
+        lang: this.lang
+      });
     }
   }
 });
@@ -24118,7 +24129,13 @@ var render = function() {
                       _vm._l(_vm.venues, function(venue) {
                         return _c(
                           "venue",
-                          { key: venue.id, attrs: { venue: venue } },
+                          {
+                            key: venue.id,
+                            attrs: {
+                              venue: venue,
+                              lang: _vm.selectedLanguage.code
+                            }
+                          },
                           [
                             _c("Map", {
                               attrs: {
@@ -24153,7 +24170,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                Load More...\n              "
+                            "\n                " +
+                              _vm._s(_vm.$t("loadMore")) +
+                              "...\n              "
                           )
                         ]
                       )
@@ -24464,7 +24483,7 @@ var render = function() {
                           "div",
                           { staticClass: "relative pt-6 px-6 flex-auto" },
                           [
-                            _c("p", [_vm._v("Description")]),
+                            _c("p", [_vm._v(_vm._s(_vm.$t("description")))]),
                             _vm._v(" "),
                             _c(
                               "p",
@@ -24484,12 +24503,43 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
+                    _vm.venueDetail.reasons.count
+                      ? _c(
+                          "div",
+                          { staticClass: "relative pt-6 px-6 flex-auto" },
+                          [
+                            _c("p", [_vm._v(_vm._s(_vm.$t("reasons")))]),
+                            _vm._v(" "),
+                            _vm._l(_vm.venueDetail.reasons.items, function(
+                              reason
+                            ) {
+                              return _c(
+                                "p",
+                                {
+                                  key: reason.summary,
+                                  staticClass:
+                                    "my-4 text-gray-600 text-md leading-relaxed"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t" +
+                                      _vm._s(reason.summary) +
+                                      "\n\t\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
                     _vm.venueDetail.tips.count
                       ? _c(
                           "div",
                           { staticClass: "relative pt-6 px-6 flex-auto" },
                           [
-                            _c("p", [_vm._v("Tips")]),
+                            _c("p", [_vm._v(_vm._s(_vm.$t("tips")))]),
                             _vm._v(" "),
                             _vm._l(_vm.venueDetail.tips.groups, function(
                               groups
@@ -24527,7 +24577,7 @@ var render = function() {
                           "div",
                           { staticClass: "relative pt-6 px-6 flex-auto" },
                           [
-                            _c("p", [_vm._v("Hours")]),
+                            _c("p", [_vm._v(_vm._s(_vm.$t("hours")))]),
                             _vm._v(" "),
                             _c(
                               "p",
@@ -24591,7 +24641,13 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("\n              Close\n            ")]
+                          [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(_vm.$t("close")) +
+                                "\n            "
+                            )
+                          ]
                         )
                       ]
                     )
@@ -40224,7 +40280,13 @@ var messages = {
       city: 'Nagoya',
       name: 'Nagoya',
       state: 'JP'
-    }]
+    }],
+    description: 'Description',
+    reasons: 'Reasons',
+    tips: 'Tips',
+    hours: 'Hours',
+    loadMore: 'Load More',
+    close: 'Close'
   },
   'ja': {
     selectCity: '都市を選択',
@@ -40266,7 +40328,13 @@ var messages = {
       city: 'Nagoya',
       name: 'Nagoya 名古屋}',
       state: 'JP'
-    }]
+    }],
+    description: '説明',
+    reasons: '理由',
+    tips: 'チップ',
+    hours: '時間',
+    loadMore: 'もっと読み込む',
+    close: '閉じる'
   }
 };
 var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]({

@@ -27,7 +27,13 @@ const messages = {
 			{ city:'Osaka', name:'Osaka', state:'JP' },
 			{ city:'Sapporo', name:'Sapporo', state:'JP' },
 			{ city:'Nagoya', name:'Nagoya', state:'JP' }
-		]
+		],
+		description: 'Description',
+		reasons: 'Reasons',
+		tips: 'Tips',
+		hours: 'Hours',
+		loadMore: 'Load More',
+		close: 'Close'
 	},
 
 	'ja': {
@@ -53,7 +59,13 @@ const messages = {
 			{ city:'Osaka', name:'Osaka 大阪', state:'JP' },
 			{ city:'Sapporo', name:'Sapporo 札幌', state:'JP' },
 			{ city:'Nagoya', name:'Nagoya 名古屋}', state:'JP' }
-		]
+		],
+		description: '説明',
+		reasons: '理由',
+		tips: 'チップ',
+		hours: '時間',
+		loadMore: 'もっと読み込む',
+		close: '閉じる'
 	}
 }
 

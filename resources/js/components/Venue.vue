@@ -73,7 +73,8 @@ import bus from '../utility/bus'
 export default {
 name: 'venue',
   props: [
-      'venue'
+	  'venue',
+	  'lang'
   ],  
   data() {
       return {
@@ -82,7 +83,7 @@ name: 'venue',
   },
   methods: {
 		preview(id) {
-			bus.$emit('previewVenue', id)
+			bus.$emit('previewVenue', {id: id, lang: this.lang })
 		}
   }
 }

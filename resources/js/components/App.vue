@@ -64,7 +64,7 @@
 							<div class="pb-6">
 								<span class="text-2xl text-blue-600 font-semibold">{{ $t('venue') }}</span>
 							</div>
-							<venue v-for="venue in venues" :key="venue.id" :venue="venue">
+							<venue v-for="venue in venues" :key="venue.id" :venue="venue" :lang="selectedLanguage.code">
                 <Map :coordinates="{ lat:venue.location.lat, lng:venue.location.lng }" />
               </venue>
 						</div>
@@ -73,7 +73,7 @@
                 class="inline-block py-4 px-8 text-xs text-white font-semibold leading-none bg-blue-600 hover:bg-blue-700 rounded"
                 @click="loadMore()"
               >
-                Load More...
+                {{ $t('loadMore') }}...
               </a>
             </div>
 					</section>

@@ -19,14 +19,23 @@
 					</div>
 
 					<div v-if="venueDetail.description" class="relative pt-6 px-6 flex-auto">
-						<p>Description</p>
+						<p>{{ $t('description') }}</p>
             <p class="my-4 text-gray-600 text-md leading-relaxed">
 							{{ venueDetail.description }}
 						</p>
           </div>
 
+          <div v-if="venueDetail.reasons.count" class="relative pt-6 px-6 flex-auto">
+						<p>{{ $t('reasons') }}</p>
+            <p v-for="reason in venueDetail.reasons.items" :key="reason.summary"
+              class="my-4 text-gray-600 text-md leading-relaxed"
+            >
+							{{ reason.summary }}
+						</p>
+          </div>
+
 					<div v-if="venueDetail.tips.count" class="relative pt-6 px-6 flex-auto">
-						<p>Tips</p>
+						<p>{{ $t('tips') }}</p>
 						<div v-for="groups in venueDetail.tips.groups" :key="groups.name">
 							<p v-for="item in groups.items" :key="item.id" class="my-4 text-gray-600 text-md leading-relaxed">
 								{{ item.text }}
@@ -35,7 +44,7 @@
           </div>
 
 					<div v-if="venueDetail.hours" class="relative pt-6 px-6 flex-auto">
-						<p>Hours</p>
+						<p>{{ $t('hours') }}</p>
 						<p class="my-2 text-gray-600 text-md leading-relaxed">{{ venueDetail.hours.status }}</p>
 						<div v-for="timeframe in venueDetail.hours.timeframes" :key="timeframe.days">
 							<p v-for="item in timeframe.open" :key="item.renderedTime" class="my-2 text-gray-600 text-md leading-relaxed">
@@ -53,7 +62,7 @@
               style="transition: all 0.15s ease"
               v-on:click="toggleModal()"
             >
-              Close
+              {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -88,14 +97,12 @@ export default {
     toggleModal() {
       this.showModal = !this.showModal;
 		},
-		showLocation(venueId) {
+		showLocation(params) {
 			axios
-				.get(`api/location/${venueId}`)
+				.get(`api/location/${params.id}?lang=${params.lang}`)
 				.then(result => {
 					this.venueDetail = result.data.venue
 					this.showModal = !this.showModal
-
-					console.log(this.venueDetail)
 				})
 				.catch(error => {
 					console.log(error)

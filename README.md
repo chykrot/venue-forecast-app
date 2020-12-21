@@ -29,6 +29,25 @@ npm install
 npm run dev || npm run watch
 
 
+## Note:
+
+
+API for Venue details has a daily limit, if occur it has a error message
+
+If Details are not shown in modal details, it means it has no data from API response
+
+## UI and UX implementation
+
+
+I choose to design with this Layout with Simplicity, Clean and Resposivenes in mind. For the tourist to easily get and we can present the information that they needed.
+
+
+## Code implementation
+
+
+I handle the Third Party API request with the backend using Laravel. To make our app more secure and don't expose our API Keys, additionally we can process those API in our backend before we return it in our frontend.
+
+
 ## Framework and Library
 
 
